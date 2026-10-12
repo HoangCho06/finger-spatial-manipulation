@@ -29,8 +29,6 @@ options = FaceLandmarkerOptions(
 landmarker = FaceLandmarker.create_from_options(options)
 
 
-landmarker_colour_value = (0,255,0)
-
 def draw_landmarkers(video, result, height, width, colour_value):
     if result.face_landmarks:
         for face_landmarks in result.face_landmarks:
@@ -41,30 +39,34 @@ def draw_landmarkers(video, result, height, width, colour_value):
 
                 cv.circle(video, (x,y), 1, colour_value, -1)
 
+def main():
+    landmarker_colour_value = (0,255,0)
+    
+    while True:
+        ret, frame = cap.read()
+    
+        img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+    
+        mp_image = mp.Image(
+            image_format=mp.ImageFormat.SRGB,
+            data=img
+        )
+    
+        result = landmarker.detect_for_video(mp_image, timestamp)
+    
+        height, width = frame.shape[:2]
+    
+        draw_landmarkers(frame, result, height, width, landmarker_colour_value)
+    
+        cv.imshow('spatial manipluation 0.1.1', frame)
+    
+        timestamp += int(1000/fps)
+    
+        if cv.waitKey(1) == ord('q'):
+            break
+    
+    cap.release()
+    landmarker.close()
+    cv.destroyAllWindows()
 
-while True:
-    ret, frame = cap.read()
-
-    img = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
-
-    mp_image = mp.Image(
-        image_format=mp.ImageFormat.SRGB,
-        data=img
-    )
-
-    result = landmarker.detect_for_video(mp_image, timestamp)
-
-    height, width = frame.shape[:2]
-
-    draw_landmarkers(frame, result, height, width, landmarker_colour_value)
-
-    cv.imshow('spatial manipluation 0.1.1', frame)
-
-    timestamp += int(1000/fps)
-
-    if cv.waitKey(1) == ord('q'):
-        break
-
-cap.release()
-landmarker.close()
-cv.destroyAllWindows()
+main()
