@@ -10,8 +10,8 @@ cap = cv.VideoCapture(webcam_model)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 500)
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 500)
 
-face_model_path = 'finger_tracking/mediapipe_models/face_landmarker.task'
-hand_model_path = 'finger_tracking/mediapipe_models/hand_landmarker.task'
+face_model_path = 'models/face_landmarker.task'
+hand_model_path = 'models/hand_landmarker.task'
 
 BaseOptions = python.BaseOptions
 VisionRunningMode = vision.RunningMode
